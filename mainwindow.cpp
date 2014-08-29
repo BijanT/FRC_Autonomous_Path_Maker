@@ -45,5 +45,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::updateDrawArea()
 {
-    drawArea->draw(100);
+
+    drawArea->draw(-45, 60);
 }
