@@ -7,22 +7,16 @@ DrawArea::DrawArea(QWidget* parent) :
     setBackgroundRole(QPalette::Base);
     setAutoFillBackground(true);
 
+    //Set the size of the draw area
+    this->setMinimumSize(WIDTH, HEIGHT);
+    this->setMaximumSize(WIDTH, HEIGHT);
+
     //Start the line size at 0
     lineXSize = lineYSize = 0;
 }
 
 DrawArea::~DrawArea()
 {
-}
-
-QSize DrawArea::minimumSizeHint() const
-{
-    return QSize(WIDTH, HEIGHT);
-}
-
-QSize DrawArea::sizeHint() const
-{
-    return QSize(WIDTH, HEIGHT);
 }
 
 void DrawArea::draw(int size)

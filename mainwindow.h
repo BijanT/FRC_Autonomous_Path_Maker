@@ -5,6 +5,8 @@
 #include <QPainter>
 #include <QGridLayout>
 #include <QPushButton>
+#include <QLineEdit>
+#include <QLabel>
 #include "drawarea.h"
 
 class MainWindow : public QWidget
@@ -15,18 +17,18 @@ public:
     MainWindow();
     ~MainWindow();
 
-    //Functions that determine the widget's size
-    QSize minimumSizeHint() const;
-    QSize sizeHint() const;
-
 private:
     //The width and height of the widget
-    const int WIDTH = 620;
+    const int WIDTH = 930;
     const int HEIGHT = 480;
 
     //The widgets we will use for this program
     DrawArea* drawArea;
     QPushButton* drawButton;
+    QLineEdit* direction;
+    QLineEdit* distance;
+    QLabel* directionLabel;
+    QLabel* distanceLabel;
 
 private slots:
     void updateDrawArea();
