@@ -8,8 +8,27 @@
 #include <QPoint>
 #include <cmath>
 #include <QDebug>
+#include <vector>
 
 #define PI 3.14159265
+
+struct PathLine
+{
+    QPoint lineStart;
+    QPoint lineEnd;
+
+    PathLine(QPoint start, QPoint end)
+    {
+        lineStart = start;
+        lineEnd = end;
+    }
+
+    PathLine()
+    {
+        lineStart = QPoint(0, 0);
+        lineEnd = QPoint(0, 0);
+    }
+};
 
 class DrawArea : public QWidget
 {
@@ -24,7 +43,8 @@ private:
     const int WIDTH = 620;
     const int HEIGHT = 450;
 
-    QPoint endOfLastLine, endOfNewLine;
+    std::vector< PathLine > lines;
+
 protected:
     void paintEvent(QPaintEvent* );
 
