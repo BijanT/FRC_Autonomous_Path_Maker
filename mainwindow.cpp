@@ -9,6 +9,7 @@ MainWindow::MainWindow()
     //Initialize the widgets
     drawArea  = new DrawArea(this);
     drawButton = new QPushButton(tr("Add Motion"), this);
+    saveButton = new QPushButton(tr("Save"), this);
     direction = new QLineEdit(this);
     distance = new QLineEdit(this);
     directionLabel = new QLabel(tr("Direction (degrees):"), this);
@@ -16,6 +17,7 @@ MainWindow::MainWindow()
 
     //Set up the Signal/Slot relationships for the widgets
     connect(drawButton, SIGNAL(clicked(bool)), this, SLOT(updateDrawArea()));
+    connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(savePath()));
 
     //Create layouts to organize the widgets
     QGridLayout* mainLayout = new QGridLayout(this);
@@ -27,6 +29,7 @@ MainWindow::MainWindow()
     userInputLayout->addWidget(direction, 1, 0);
     userInputLayout->addWidget(distance, 1, 1);
     userInputLayout->addWidget(drawButton, 2, 0, 1, 2);
+    userInputLayout->addWidget(saveButton, 3, 0, 1, 2);
 
     //Put the widgets in the main window
     mainLayout->addLayout(userInputLayout, 0, 0);
@@ -37,6 +40,7 @@ MainWindow::~MainWindow()
 {
     delete drawArea;
     delete drawButton;
+    delete saveButton;
     delete direction;
     delete distance;
     delete directionLabel;
@@ -67,4 +71,36 @@ void MainWindow::updateDrawArea()
 
     //If the conversions were succesful, draw a new line with the requested distance and direction
     drawArea->draw(directionInt, distanceInt);
+}
+
+//This function handles saving a .path file that holds the instruction for the path
+//Called when the save button is pressed
+void MainWindow::savePath()
+{
+    //Get a copy of the instructions from drawArea
+    std::vector< PathInstruction > instructions = drawArea->getInstructions();
+
+    //Get the file name the user wants to save to
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Where do you want to save the path file?"), QString(), tr("Path files (*.path)"));
+
+    //Check if the fileName string is not empty (i.e. the user chose a file name to save to)
+    if(!fileName.isEmpty())
+    {
+        //Create an instance of the file and make sure it opens correctly
+        QFile file(fileName);
+        if(!file.open(QIODevice::WriteOnly))
+        {
+            QMessageBox::critical(this, tr("Error"), tr("Could not save to the requested file."));
+            return;
+        }
+        QTextStream out(&file);
+
+        //loop trough all of the instructions and save them into the file
+        for(auto iter = instructions.begin(); iter != instructions.end(); iter++)
+        {
+            out << (*iter).direction << " " << (*iter).distance <<"\n";
+        }
+
+        file.close();
+    }
 }

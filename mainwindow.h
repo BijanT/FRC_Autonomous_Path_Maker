@@ -8,6 +8,10 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QTextStream>
+#include <vector>
 #include "drawarea.h"
 
 class MainWindow : public QWidget
@@ -26,6 +30,7 @@ private:
     //The widgets we will use for this program
     DrawArea* drawArea;
     QPushButton* drawButton;
+    QPushButton* saveButton;
     QLineEdit* direction;
     QLineEdit* distance;
     QLabel* directionLabel;
@@ -33,6 +38,7 @@ private:
 
 private slots:
     void updateDrawArea();
+    void savePath();
 };
 
 #endif // MAINWINDOW_H

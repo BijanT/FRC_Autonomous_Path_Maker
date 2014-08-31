@@ -17,16 +17,26 @@ struct PathLine
     QPoint lineStart;
     QPoint lineEnd;
 
-    PathLine(QPoint start, QPoint end)
+    PathLine(QPoint start, QPoint end) :
+        lineStart(start), lineEnd(end)
     {
-        lineStart = start;
-        lineEnd = end;
     }
 
     PathLine()
     {
         lineStart = QPoint(0, 0);
         lineEnd = QPoint(0, 0);
+    }
+};
+
+struct PathInstruction
+{
+    int direction;
+    int distance;
+
+    PathInstruction(int dir, int dis) :
+        direction(dir), distance(dis)
+    {
     }
 };
 
@@ -39,11 +49,14 @@ public:
 
     void draw(int direction, int distance);
 
+    std::vector< PathInstruction > getInstructions(){return instructions;}
+
 private:
     const int WIDTH = 620;
     const int HEIGHT = 450;
 
     std::vector< PathLine > lines;
+    std::vector< PathInstruction> instructions;
 
 protected:
     void paintEvent(QPaintEvent* );
