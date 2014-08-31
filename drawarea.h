@@ -49,6 +49,7 @@ public:
 
     void draw(int direction, int distance);
     void clearScreen();
+    void removeLastLine();
 
     std::vector< PathInstruction > getInstructions(){return instructions;}
 

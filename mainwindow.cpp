@@ -11,6 +11,7 @@ MainWindow::MainWindow()
     drawButton = new QPushButton(tr("Add Motion"), this);
     saveButton = new QPushButton(tr("Save"), this);
     clearButton = new QPushButton(tr("Clear Path"), this);
+    removeLastButton = new QPushButton(tr("Remove Last Line"), this);
     direction = new QLineEdit(this);
     distance = new QLineEdit(this);
     directionLabel = new QLabel(tr("Direction (degrees):"), this);
@@ -20,6 +21,7 @@ MainWindow::MainWindow()
     connect(drawButton, SIGNAL(clicked(bool)), this, SLOT(updateDrawArea()));
     connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(savePath()));
     connect(clearButton, SIGNAL(clicked(bool)), this, SLOT(clearScreen()));
+    connect(removeLastButton, SIGNAL(clicked(bool)), this, SLOT(removeLastLine()));
 
     //Create layouts to organize the widgets
     QGridLayout* mainLayout = new QGridLayout(this);
@@ -31,7 +33,8 @@ MainWindow::MainWindow()
     userInputLayout->addWidget(direction, 1, 0);
     userInputLayout->addWidget(distance, 1, 1);
     userInputLayout->addWidget(drawButton, 2, 0, 1, 2);
-    userInputLayout->addWidget(clearButton, 3, 0, 1, 2);
+    userInputLayout->addWidget(clearButton, 3, 0);
+    userInputLayout->addWidget(removeLastButton, 3, 1);
     userInputLayout->addWidget(saveButton, 4, 0, 1, 2);
 
     //Put the widgets in the main window
@@ -44,6 +47,8 @@ MainWindow::~MainWindow()
     delete drawArea;
     delete drawButton;
     delete saveButton;
+    delete clearButton;
+    delete removeLastButton;
     delete direction;
     delete distance;
     delete directionLabel;
@@ -111,4 +116,9 @@ void MainWindow::savePath()
 void MainWindow::clearScreen()
 {
     drawArea->clearScreen();
+}
+
+void MainWindow::removeLastLine()
+{
+    drawArea->removeLastLine();
 }

@@ -75,6 +75,19 @@ void DrawArea::clearScreen()
     this->update();
 }
 
+void DrawArea::removeLastLine()
+{
+    //Remove the last elements of the lines and instructions vector after checking if they are occupied
+    if((lines.size() > 0) && (instructions.size() > 0))
+    {
+        lines.erase(lines.end()-1);
+        instructions.erase(instructions.end()-1);
+
+        //After removing the last line, update the draw area
+        this->update();
+    }
+}
+
 void DrawArea::paintEvent(QPaintEvent * /*event*/)
 {
     //Create the painter
