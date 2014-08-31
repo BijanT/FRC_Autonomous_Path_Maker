@@ -43,8 +43,28 @@ MainWindow::~MainWindow()
     delete distanceLabel;
 }
 
+//This function is called when drawButton is pressed
 void MainWindow::updateDrawArea()
 {
+    //Initialize the variables used in this function
+    int directionInt, distanceInt;
+    bool conversionSuccessful;
+    //Convert the direction and distance text boxes from QStrings to ints and make sure the conversion occured correctly
+    directionInt = direction->text().toInt(&conversionSuccessful);
+    if(!conversionSuccessful)
+    {
+        //If the conversion failed, display a message and exit the function
+        QMessageBox::critical(this, tr("Error!"), tr("Error converting the direction from a string to an integer"));
+        return;
+    }
+    distanceInt = distance->text().toInt(&conversionSuccessful);
+    if(!conversionSuccessful)
+    {
+        //If the conversion failed, display a message and exit the function
+        QMessageBox::critical(this, tr("Error!"), tr("Error converting the distance from a string to an integer"));
+        return;
+    }
 
-    drawArea->draw(-45, 60);
+    //If the conversions were succesful, draw a new line with the requested distance and direction
+    drawArea->draw(directionInt, distanceInt);
 }

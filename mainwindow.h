@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QLabel>
+#include <QMessageBox>
 #include "drawarea.h"
 
 class MainWindow : public QWidget
