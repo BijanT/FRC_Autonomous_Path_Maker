@@ -126,6 +126,8 @@ void MainWindow::openPath()
     //Check if the fileName string is not empty (i.e. the user chose a file name to open)
     if(!fileName.isEmpty())
     {
+        //Clear the screen for the new path to be opened
+        drawArea->clearScreen();
         QFile file(fileName);
         //Open the file and make sure it is opened correctly
         if(!file.open(QIODevice::ReadOnly))
