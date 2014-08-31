@@ -10,6 +10,7 @@ MainWindow::MainWindow()
     drawArea  = new DrawArea(this);
     drawButton = new QPushButton(tr("Add Motion"), this);
     saveButton = new QPushButton(tr("Save"), this);
+    openButton = new QPushButton(tr("Open"), this);
     clearButton = new QPushButton(tr("Clear Path"), this);
     removeLastButton = new QPushButton(tr("Remove Last Line"), this);
     direction = new QLineEdit(this);
@@ -20,6 +21,7 @@ MainWindow::MainWindow()
     //Set up the Signal/Slot relationships for the widgets
     connect(drawButton, SIGNAL(clicked(bool)), this, SLOT(updateDrawArea()));
     connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(savePath()));
+    connect(openButton, SIGNAL(clicked(bool)), this, SLOT(openPath()));
     connect(clearButton, SIGNAL(clicked(bool)), this, SLOT(clearScreen()));
     connect(removeLastButton, SIGNAL(clicked(bool)), this, SLOT(removeLastLine()));
 
@@ -32,10 +34,11 @@ MainWindow::MainWindow()
     userInputLayout->addWidget(distanceLabel, 0, 1);
     userInputLayout->addWidget(direction, 1, 0);
     userInputLayout->addWidget(distance, 1, 1);
-    userInputLayout->addWidget(drawButton, 2, 0, 1, 2);
+    userInputLayout->addWidget(drawButton, 2, 0, 1, 2);//Have the button span two collumns
     userInputLayout->addWidget(clearButton, 3, 0);
     userInputLayout->addWidget(removeLastButton, 3, 1);
-    userInputLayout->addWidget(saveButton, 4, 0, 1, 2);
+    userInputLayout->addWidget(saveButton, 4, 0);
+    userInputLayout->addWidget(openButton, 4, 1);
 
     //Put the widgets in the main window
     mainLayout->addLayout(userInputLayout, 0, 0);
@@ -113,12 +116,80 @@ void MainWindow::savePath()
     }
 }
 
+//This function handles opening a .path file
+//Called whenever the open button is pressed
+void MainWindow::openPath()
+{
+    //Get the name of the file to open
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Which file do you want to open?"), QString(), tr("Path files (*.path)"));
+
+    //Check if the fileName string is not empty (i.e. the user chose a file name to open)
+    if(!fileName.isEmpty())
+    {
+        QFile file(fileName);
+        //Open the file and make sure it is opened correctly
+        if(!file.open(QIODevice::ReadOnly))
+        {
+            QMessageBox::critical(this, tr("Error"), tr("Could not open requested file."));
+            return;
+        }
+        QTextStream in(&file);
+
+        //Read the file line by line until the file ends
+        while(!in.atEnd())
+        {
+            int directionInt, distanceInt;
+            bool conversionSuccessful;
+            QString input, direction, distance;
+            QStringList splitString;
+
+            //Read one line from the file
+            input = in.readLine();
+
+            //Split the input into the direction and distance
+            splitString = input.split(QRegExp(" "));
+            direction = splitString.at(0);
+            distance = splitString.at(1);
+
+            //Convert the strings to integers and check if they were converted correctly
+            directionInt = direction.toInt(&conversionSuccessful);
+            if(!conversionSuccessful)
+            {
+                QMessageBox::critical(this, tr("Error"), tr("There was an error opening the file. The file may not be the correct format/type"));
+                return;
+            }
+            distanceInt = distance.toInt(&conversionSuccessful);
+            if(!conversionSuccessful)
+            {
+                QMessageBox::critical(this, tr("Error"), tr("There was an error opening the file. The file may not be the correct format/type"));
+                return;
+            }
+
+            //Draw a path with the newly aquired instructions
+            drawArea->draw(directionInt, distanceInt);
+        }
+    }
+}
+
 void MainWindow::clearScreen()
 {
-    drawArea->clearScreen();
+    //Check if the user is sure before clearing the draw area
+    if(userIsSure() == QMessageBox::Yes)
+    {
+        drawArea->clearScreen();
+    }
 }
 
 void MainWindow::removeLastLine()
 {
-    drawArea->removeLastLine();
+    //Check if the user is sure before removing the last line
+    if(userIsSure() == QMessageBox::Yes)
+    {
+        drawArea->removeLastLine();
+    }
+}
+
+QMessageBox::StandardButton MainWindow::userIsSure()
+{
+    return QMessageBox::question(this, tr("Are you sure?"), tr("Are you sure you want to do this? It cannot be undone."));
 }

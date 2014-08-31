@@ -13,7 +13,6 @@ DrawArea::DrawArea(QWidget* parent) :
 
     //Make the first "line" in the lines vector a point in the middle of the draw area
     lines.push_back(PathLine(QPoint(WIDTH/2, HEIGHT/2), QPoint(WIDTH/2, HEIGHT/2)));
-
 }
 
 DrawArea::~DrawArea()

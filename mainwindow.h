@@ -31,6 +31,7 @@ private:
     DrawArea* drawArea;
     QPushButton* drawButton;
     QPushButton* saveButton;
+    QPushButton* openButton;
     QPushButton* clearButton;
     QPushButton* removeLastButton;
     QLineEdit* direction;
@@ -38,9 +39,12 @@ private:
     QLabel* directionLabel;
     QLabel* distanceLabel;
 
+    QMessageBox::StandardButton userIsSure();
+
 private slots:
     void updateDrawArea();
     void savePath();
+    void openPath();
     void clearScreen();
     void removeLastLine();
 };
