@@ -19,6 +19,7 @@ DrawArea::DrawArea(QWidget* parent) :
 DrawArea::~DrawArea()
 {
     lines.clear();
+    instructions.clear();
 }
 
 void DrawArea::draw(int direction, int distance)
@@ -58,6 +59,19 @@ void DrawArea::draw(int direction, int distance)
     //Add the new line to the lines vector
     lines.push_back(newLine);
 
+    this->update();
+}
+
+void DrawArea::clearScreen()
+{
+    //Clear both the lines and instructions vector
+    lines.clear();
+    instructions.clear();
+
+    //Put a "line" that is a dot in the center of the draw area as a point of reference to the user
+    lines.push_back(PathLine(QPoint(WIDTH/2, HEIGHT/2), QPoint(WIDTH/2, HEIGHT/2)));
+
+    //Update the draw area
     this->update();
 }
 

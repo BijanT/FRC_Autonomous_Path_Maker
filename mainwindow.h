@@ -31,6 +31,7 @@ private:
     DrawArea* drawArea;
     QPushButton* drawButton;
     QPushButton* saveButton;
+    QPushButton* clearButton;
     QLineEdit* direction;
     QLineEdit* distance;
     QLabel* directionLabel;
@@ -39,6 +40,7 @@ private:
 private slots:
     void updateDrawArea();
     void savePath();
+    void clearScreen();
 };
 
 #endif // MAINWINDOW_H

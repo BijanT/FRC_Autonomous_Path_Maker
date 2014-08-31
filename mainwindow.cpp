@@ -10,6 +10,7 @@ MainWindow::MainWindow()
     drawArea  = new DrawArea(this);
     drawButton = new QPushButton(tr("Add Motion"), this);
     saveButton = new QPushButton(tr("Save"), this);
+    clearButton = new QPushButton(tr("Clear Path"), this);
     direction = new QLineEdit(this);
     distance = new QLineEdit(this);
     directionLabel = new QLabel(tr("Direction (degrees):"), this);
@@ -18,6 +19,7 @@ MainWindow::MainWindow()
     //Set up the Signal/Slot relationships for the widgets
     connect(drawButton, SIGNAL(clicked(bool)), this, SLOT(updateDrawArea()));
     connect(saveButton, SIGNAL(clicked(bool)), this, SLOT(savePath()));
+    connect(clearButton, SIGNAL(clicked(bool)), this, SLOT(clearScreen()));
 
     //Create layouts to organize the widgets
     QGridLayout* mainLayout = new QGridLayout(this);
@@ -29,7 +31,8 @@ MainWindow::MainWindow()
     userInputLayout->addWidget(direction, 1, 0);
     userInputLayout->addWidget(distance, 1, 1);
     userInputLayout->addWidget(drawButton, 2, 0, 1, 2);
-    userInputLayout->addWidget(saveButton, 3, 0, 1, 2);
+    userInputLayout->addWidget(clearButton, 3, 0, 1, 2);
+    userInputLayout->addWidget(saveButton, 4, 0, 1, 2);
 
     //Put the widgets in the main window
     mainLayout->addLayout(userInputLayout, 0, 0);
@@ -103,4 +106,9 @@ void MainWindow::savePath()
 
         file.close();
     }
+}
+
+void MainWindow::clearScreen()
+{
+    drawArea->clearScreen();
 }

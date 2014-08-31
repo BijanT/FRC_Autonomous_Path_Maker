@@ -48,6 +48,7 @@ public:
     ~DrawArea();
 
     void draw(int direction, int distance);
+    void clearScreen();
 
     std::vector< PathInstruction > getInstructions(){return instructions;}
 
