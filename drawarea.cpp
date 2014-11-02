@@ -48,7 +48,6 @@ void DrawArea::draw(int direction, int distance)
     lastLine = lines.back();
     start = lastLine.lineEnd;
     //The end of the new line is the horizantal and vertical distance traveled added to the end of last line's x and y value respectively
-    end;
     end.setX(lastLine.lineEnd.x() + horDist);
     end.setY(lastLine.lineEnd.y() + verDist);
     //Put the start and end values in newLine
