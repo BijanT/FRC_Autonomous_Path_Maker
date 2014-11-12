@@ -36,8 +36,10 @@ private:
     QPushButton* removeLastButton;
     QLineEdit* direction;
     QLineEdit* distance;
+    QLineEdit* speed;
     QLabel* directionLabel;
     QLabel* distanceLabel;
+    QLabel* speedLabel;
 
     QMessageBox::StandardButton userIsSure();
 

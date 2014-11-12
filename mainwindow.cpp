@@ -15,8 +15,10 @@ MainWindow::MainWindow()
     removeLastButton = new QPushButton(tr("Remove Last Line"), this);
     direction = new QLineEdit(this);
     distance = new QLineEdit(this);
+    speed = new QLineEdit(this);
     directionLabel = new QLabel(tr("Direction (degrees):"), this);
     distanceLabel = new QLabel(tr("Distance (inches):"), this);
+    speedLabel = new QLabel(tr("Speed"), this);
 
     //Set up the Signal/Slot relationships for the widgets
     connect(drawButton, SIGNAL(clicked(bool)), this, SLOT(updateDrawArea()));
@@ -32,9 +34,11 @@ MainWindow::MainWindow()
     //Put the widgets used for user input in the user input layout
     userInputLayout->addWidget(directionLabel, 0, 0);
     userInputLayout->addWidget(distanceLabel, 0, 1);
+    userInputLayout->addWidget(speedLabel, 0, 2);
     userInputLayout->addWidget(direction, 1, 0);
     userInputLayout->addWidget(distance, 1, 1);
-    userInputLayout->addWidget(drawButton, 2, 0, 1, 2);//Have the button span two collumns
+    userInputLayout->addWidget(speed, 1, 2);
+    userInputLayout->addWidget(drawButton, 2, 0, 1, 3);//Have the button span three collumns
     userInputLayout->addWidget(clearButton, 3, 0);
     userInputLayout->addWidget(removeLastButton, 3, 1);
     userInputLayout->addWidget(saveButton, 4, 0);
