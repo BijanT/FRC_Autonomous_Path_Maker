@@ -18,7 +18,7 @@ MainWindow::MainWindow()
     speed = new QLineEdit(this);
     directionLabel = new QLabel(tr("Direction (degrees):"), this);
     distanceLabel = new QLabel(tr("Distance (inches):"), this);
-    speedLabel = new QLabel(tr("Speed"), this);
+    speedLabel = new QLabel(tr("Speed (Percent):"), this);
 
     //Set up the Signal/Slot relationships for the widgets
     connect(drawButton, SIGNAL(clicked(bool)), this, SLOT(updateDrawArea()));
