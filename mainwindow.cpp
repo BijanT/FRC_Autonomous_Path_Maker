@@ -58,15 +58,17 @@ MainWindow::~MainWindow()
     delete removeLastButton;
     delete direction;
     delete distance;
+    delete speed;
     delete directionLabel;
     delete distanceLabel;
+    delete speedLabel;
 }
 
 //This function is called when drawButton is pressed
 void MainWindow::updateDrawArea()
 {
     //Initialize the variables used in this function
-    int directionInt, distanceInt;
+    int directionInt, distanceInt, speedInt;
     bool conversionSuccessful;
     //Convert the direction and distance text boxes from QStrings to ints and make sure the conversion occured correctly
     directionInt = direction->text().toInt(&conversionSuccessful);
@@ -83,9 +85,17 @@ void MainWindow::updateDrawArea()
         QMessageBox::critical(this, tr("Error!"), tr("Error converting the distance from a string to an integer"));
         return;
     }
+    //Conver the speed from a QString into an integer
+    speedInt = speed->text().toInt(&conversionSuccessful);
+    if(!conversionSuccessful)
+    {
+        //If the conversion failed, display a message and exit the function
+        QMessageBox::critical(this, tr("Error!"), tr("Error converting the speed from a string to an integer"));
+        return;
+    }
 
-    //If the conversions were succesful, draw a new line with the requested distance and direction
-    drawArea->draw(directionInt, distanceInt);
+    //If the conversions were succesful, draw a new line with the requested distance, direction, and speed through
+    drawArea->draw(directionInt, distanceInt, speedInt);
 }
 
 //This function handles saving a .path file that holds the instruction for the path
@@ -113,7 +123,7 @@ void MainWindow::savePath()
         //loop trough all of the instructions and save them into the file
         for(auto iter = instructions.begin(); iter != instructions.end(); iter++)
         {
-            out << (*iter).direction << " " << (*iter).distance <<"\n";
+            out << (*iter).direction << " " << (*iter).distance << " " << (*iter).speed << "\n";
         }
 
         file.close();
@@ -144,9 +154,9 @@ void MainWindow::openPath()
         //Read the file line by line until the file ends
         while(!in.atEnd())
         {
-            int directionInt, distanceInt;
+            int directionInt, distanceInt, speedInt;
             bool conversionSuccessful;
-            QString input, direction, distance;
+            QString input, direction, distance, speed;
             QStringList splitString;
 
             //Read one line from the file
@@ -156,6 +166,7 @@ void MainWindow::openPath()
             splitString = input.split(QRegExp(" "));
             direction = splitString.at(0);
             distance = splitString.at(1);
+            speed = splitString.at(2);
 
             //Convert the strings to integers and check if they were converted correctly
             directionInt = direction.toInt(&conversionSuccessful);
@@ -170,9 +181,15 @@ void MainWindow::openPath()
                 QMessageBox::critical(this, tr("Error"), tr("There was an error opening the file. The file may not be the correct format/type"));
                 return;
             }
+            speedInt = speed.toInt(&conversionSuccessful);
+            if(!conversionSuccessful)
+            {
+                QMessageBox::critical(this, tr("Error"), tr("There was an error opening the file. The file may not be the correct format/type"));
+                return;
+            }
 
             //Draw a path with the newly aquired instructions
-            drawArea->draw(directionInt, distanceInt);
+            drawArea->draw(directionInt, distanceInt, speedInt);
         }
     }
 }

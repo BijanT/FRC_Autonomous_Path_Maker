@@ -33,9 +33,10 @@ struct PathInstruction
 {
     int direction;
     int distance;
+    int speed; //The speed does not <i>need</i> to be saved in the draw area as it serves no purpose for drawing, but it is nice to keep the robot driving instructions together
 
-    PathInstruction(int dir, int dis) :
-        direction(dir), distance(dis)
+    PathInstruction(int dir, int dis, int sp) :
+        direction(dir), distance(dis), speed(sp)
     {
     }
 };
@@ -47,7 +48,7 @@ public:
     DrawArea(QWidget* parent = 0);
     ~DrawArea();
 
-    void draw(int direction, int distance);
+    void draw(int direction, int distance, int speed);
     void clearScreen();
     void removeLastLine();
 

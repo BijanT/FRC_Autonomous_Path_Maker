@@ -21,7 +21,7 @@ DrawArea::~DrawArea()
     instructions.clear();
 }
 
-void DrawArea::draw(int direction, int distance)
+void DrawArea::draw(int direction, int distance, int speed)
 {
     //Initialize all the variables used in this function
     float dirInRad;
@@ -31,7 +31,7 @@ void DrawArea::draw(int direction, int distance)
     QPoint start, end;
 
     //Save the direction and distance in the instructions vector
-    instructions.push_back(PathInstruction(direction, distance));
+    instructions.push_back(PathInstruction(direction, distance, speed));
 
     //Change the angle so that if the user entered 0 degrees, the line would go straight ahead.
     direction -= 90;
